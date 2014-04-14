@@ -342,7 +342,6 @@ struct settings
 	int						use_current_name;
 	struct fav_server		server[INI_SERVERS_MAX];
 
-	int						chat_secondary_key;
 	struct chat_msg			chat[INI_CHATMSGS_MAX];
 
 	struct patch_set		patch[INI_PATCHES_MAX];
