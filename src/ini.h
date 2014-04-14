@@ -47,7 +47,6 @@ struct chat_msg
 {
 	int			key;
 	const char	*msg;
-	int			spam;
 };
 
 struct gui
