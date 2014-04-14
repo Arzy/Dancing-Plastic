@@ -897,8 +897,6 @@ static void ini_init ( void )
 		ini_register_data( ent, &set.mod_commands_activated, "false" );
 
 	// keybinder
-	if ( (ent = ini_register_entry("chat_secondary_key", TYPE_KEY)) != NULL )
-		ini_register_data( ent, &set.chat_secondary_key, "oem_comma" );
 	if ( (ent = ini_register_entry("chat", TYPE_CHATMSG)) != NULL )
 	{
 		for ( i = 0; i < INI_CHATMSGS_MAX; i++ )
@@ -1304,13 +1302,12 @@ static void ini_entry_parse_type ( struct ini_entry *ent, int idx, const char *v
 		if ( split->argc <= 1 )
 			break;
 
-		if ( split->argc == 3 )
+		if ( split->argc == 2 )
 		{
 			struct chat_msg *chat_msg = (struct chat_msg *)ent_data->data;
 
 			chat_msg->key = key_lookup( split->argv[0] );
 			chat_msg->msg = _strdup( split->argv[1] );
-			chat_msg->spam = parse_int( split->argv[2] );
 		}
 		else
 		{
