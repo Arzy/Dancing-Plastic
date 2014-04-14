@@ -679,33 +679,37 @@ void sampMainCheat ()
 			playerSpawn();
 	}
 
-	if ( KEY_DOWN(set.chat_secondary_key) )
-	{
-		int			i, key, spam;
+	if (1) { // used to be KEY_DOWN(set.chat_secondary_key), but in my opinion, it's better without.
+		int	key, spam;
+		unsigned int n, z, i;
 		const char	*msg;
-		for ( i = 0; i < INI_CHATMSGS_MAX; i++ )
-		{
+		char new_msg[64];
+		for (i = 0; i < INI_CHATMSGS_MAX; i++) {
 			struct chat_msg *msg_item = &set.chat[i];
-			if ( msg_item->key == NULL )
+			if (msg_item->key == NULL)
 				continue;
-			if ( msg_item->msg == NULL )
+			if (msg_item->msg == NULL)
 				continue;
-			if ( msg_item->key != key_being_pressed )
+			if (msg_item->key != key_being_pressed)
 				continue;
 			key = msg_item->key;
 			msg = msg_item->msg;
-			spam = msg_item->spam;
-			if ( spam )
-			{
-				if ( msg )
-					if ( KEY_DOWN(key) )
-						say( "%s", msg );
-			}
-			else
-			{
-				if ( msg )
-					if ( KEY_PRESSED(key) )
-						say( "%s", msg );
+
+
+			if (msg) {
+				if (KEY_PRESSED(key)) {
+					if (msg[0] == '~') {
+						for (n = 1; n < strlen(msg) && msg[n] != '~' && msg[n + 1] != '~'; n++) {
+							memset(new_msg, 0, sizeof(new_msg));
+							for (n, z = 0; n < strlen(msg) && msg[n] != '~'; n++, z++) {
+								new_msg[z] = msg[n];
+							}
+
+							new_msg[z + 1] = 0;
+							say("%s", new_msg);
+						}
+					}
+				}
 			}
 		}
 	}
