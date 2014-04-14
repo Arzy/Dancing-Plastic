@@ -680,7 +680,7 @@ void sampMainCheat ()
 	}
 
 	if (1) { // used to be KEY_DOWN(set.chat_secondary_key), but in my opinion, it's better without.
-		int	key, spam;
+		int	key;
 		unsigned int n, z, i;
 		const char	*msg;
 		char new_msg[64];
@@ -695,8 +695,7 @@ void sampMainCheat ()
 			key = msg_item->key;
 			msg = msg_item->msg;
 
-
-			if (msg) {
+			if (msg) { // example : "~Line 1~Line 2~~". The player will firstly say the line 1, and then, the line 2. I use ~~ to know when the sentence will end.
 				if (KEY_PRESSED(key)) {
 					if (msg[0] == '~') {
 						for (n = 1; n < strlen(msg) && msg[n] != '~' && msg[n + 1] != '~'; n++) {
