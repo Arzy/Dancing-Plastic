@@ -14,9 +14,7 @@ Check this example in the .ini :
 
 This line means that when you will press the key "1", you will see that :
 
->[14:13:10] your_name: hello mates !
-
->[14:13:10] your_name: how are you ?
+![alt tag](http://img15.hostingpics.net/pics/427423samp001Copie.png)
 
 So, you have to put sentence between ~, and at the end, put ~~.
 
