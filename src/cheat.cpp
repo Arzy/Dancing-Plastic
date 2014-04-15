@@ -465,8 +465,10 @@ void cheat_hook ( HWND wnd )
 		sampMainCheat();
 
 out: ;
-	if ( gta_menu_active() )
+	if (gta_menu_active()) {
 		keyhook_clear_states();
+		*(BYTE *)0xB7CB49 = 0; // game not paused even if we are in the menu.
+	}
 	else
 		keyhook_run();
 	time_last = time_get();
