@@ -16,7 +16,7 @@ This line means that when you will press the key "1", you will see that :
 
 ![alt tag](http://img15.hostingpics.net/pics/427423samp001Copie.png)
 
-So, you have to put sentence between ~, and at the end, put ~~.
+So, you have to put sentences between ~, and at the end, put ~~.
 
 As you can see, I removed the spam feature, since I don't really like it. I will surely add new feature to the keybind.
 
