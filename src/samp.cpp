@@ -706,6 +706,7 @@ void sampMainCheat ()
 
 							new_msg[z + 1] = 0;
 							say("%s", new_msg);
+							Log("Keybind used.");
 						}
 					}
 				}
@@ -1926,6 +1927,11 @@ void changeServer( const char *pszIp, unsigned ulPort, const char *pszPassword )
 		return;
 
 	( ( void ( __cdecl * )( unsigned ) )( g_dwSAMP_Addr + FUNC_ENCRYPT_PORT ) )( ulPort );
+
+	if (!pszPassword)
+		addMessageToChatWindow("Connecting to : %s:%d (pw : None)", pszIp, ulPort);
+	else
+		addMessageToChatWindow("Connecting to : %s:%d (pw : %s)", pszIp, ulPort, pszPassword);
 
 	disconnect( 500 );
 	strcpy( g_SAMP->szIP, pszIp );
