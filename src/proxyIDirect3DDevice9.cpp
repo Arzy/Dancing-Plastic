@@ -79,7 +79,7 @@ CD3DFont				*pD3DFontChat = new CD3DFont( "Tahoma", 11, FCR_BOLD | FCR_BORDER );
 CD3DFont				*pD3DFontDebugWnd = new CD3DFont("Lucida Console", 8, FCR_BORDER );
 
 #define MENU_ROWS					12
-#define MENU_WIDTH					400
+#define MENU_WIDTH					550
 #define IS_SCOREBOARD_TOGGLED_ON	*(int *)( *(DWORD *)( g_dwSAMP_Addr + SAMP_SCOREBOARD_INFO ) ) == 1
 
 struct gui				*hud_bar = &set.guiset[0];
