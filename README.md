@@ -10,8 +10,8 @@ Dancing Plastic is a Sobeit's fork (https://github.com/BlastHackNet/mod_s0beit_s
 Feature Name  | Date | Description of the feature
 ------------- | ------------- | -------------
 Keybind version 0.00001 | 15/04/14 | [Click here to go to the description](#keybind)
-USERDATA.DAT | 18/04/14 | Click here to go to the description
-/~cg_name | 18/04/14 | Click here to go to the description
+USERDATA.DAT | 18/04/14 | [Click here to go to the description](#userdata)
+/~cg_name | 18/04/14 | [Click here to go to the description](#cg_name)
 
 ####Contact :
 
@@ -35,3 +35,28 @@ This line means that when you will press the key "1", you will see that :
 So, you have to put sentences between ~, and at the end, put ~~.
 
 As you can see, I removed the spam feature, since I don't really like it. I will surely add new feature to the keybind.
+
+###### USERDATA
+USERDATA.DAT is the file which contains the list of your favorite server. Servers that you have added with your sa-mp client.
+
+You have to put this file (USERDATA.DAT) into your mod_sa directory. This action will allows you to see this list and to be able to connect with your client.
+
+![alt tag](http://img4.hostingpics.net/pics/421380samp002Copie.png)
+
+###### cg_name
+
+I have added a new client command :
+
+```/~cg_name```
+
+This command allows you to change your name when you will connect to another server.
+
+For example : 
+
+```/~cg_name gaymaster```
+
+And then, you can connect to a server.
+
+If you connect to a server which is in your .ini, it will use the name that you have put in the .ini.
+
+But, if you conncet to a server which is in your USERDATA.DAT, it will use the name that you have put in /~cg_name.
