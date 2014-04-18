@@ -10,6 +10,7 @@ Dancing Plastic is a Sobeit's fork (https://github.com/BlastHackNet/mod_s0beit_s
 Feature Name  | Date | Description of the feature
 ------------- | ------------- | -------------
 Keybind version 0.00001 | 15/04/14 | [Click here to go to the description](#keybind)
+Game Pause | 15/04/14 | [Click here to go to the description](#game_pause)
 USERDATA.DAT | 18/04/14 | [Click here to go to the description](#userdata)
 /~cg_name | 18/04/14 | [Click here to go to the description](#cg_name)
 
@@ -35,6 +36,10 @@ This line means that when you will press the key "1", you will see that :
 So, you have to put sentences between ~, and at the end, put ~~.
 
 As you can see, I removed the spam feature, since I don't really like it. I will surely add new feature to the keybind.
+
+###### Game_Pause
+
+Thanks to some opcode, the game is no more paused when you are in the menu. It means that if you are on sa-mp and that you go in the pause menu, your game will not be paused.
 
 ###### USERDATA
 USERDATA.DAT is the file which contains the list of your favorite server. Servers that you have added with your sa-mp client.
