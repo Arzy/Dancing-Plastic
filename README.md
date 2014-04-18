@@ -20,6 +20,10 @@ So, you have to put sentences between ~, and at the end, put ~~.
 
 As you can see, I removed the spam feature, since I don't really like it. I will surely add new feature to the keybind.
 
+* You can now see your favorite SA-MP servers that you have added with your SAMP-client. The only thing that you have to do is to copy your USERDATA.DAT file into your mod_sa/ directory.
+
+USERDATA.DAT can be found in your gta userfile. 
+
 ####Contact :
 
 Don't hesitate to contact me if you have any questions. I often check Github.
