@@ -50,17 +50,11 @@ You have to put this file (USERDATA.DAT) into your mod_sa directory. This action
 
 ###### cg_name
 
-I have added a new client command :
-
-```/~cg_name```
+I have added a new client command : ``` /~cg_name ```
 
 This command allows you to change your name when you will connect to another server.
 
-For example : 
-
-```/~cg_name gaymaster```
-
-And then, you can connect to a server.
+For example : ```/~cg_name gaymaster```. Your name will be gaymaster, you can now connect to a server.
 
 If you connect to a server which is in your .ini, it will use the name that you have put in the .ini.
 
