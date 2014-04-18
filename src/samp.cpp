@@ -29,6 +29,7 @@
 extern int						iViewingInfoPlayer;
 int								g_iSpectateEnabled = 0, g_iSpectateLock = 0, g_iSpectatePlayerID = -1;
 int								g_iCursorEnabled = 0;
+char *							cg_name;
 
 // global samp pointers
 int								iIsSAMPSupported = 0;
@@ -365,6 +366,22 @@ void cmd_fakekill ( char *params )
 
 	for ( int i = 0; i < amount; i++ ) 
 		g_RakClient->SendDeath( killer, reason );
+}
+
+void cmd_cg_name(char *params)
+{
+	
+	if (ContainsInvalidNickChars_SAMP(params) || strlen(params) < 3 || strlen(params) > 20) {
+		addMessageToChatWindow("[DP] This name is sadly not valid. Your name has to be between 3 and 20.");
+		addMessageToChatWindow("[DP] Also: [a-z] [A-Z] [0-9].");
+	}
+	else {
+		addMessageToChatWindow("[DP] New name : %s", params);
+		cg_name = params;
+	}
+	
+
+	return;
 }
 
 // new functions to check for bad pointers
@@ -1163,6 +1180,8 @@ void init_samp_chat_cmds ()
 	addClientCommand( "m0d_pickup", (int)cmd_pickup );
 	addClientCommand( "m0d_setclass", (int)cmd_setclass );
 	addClientCommand( "m0d_fakekill", (int)cmd_fakekill );
+
+	addClientCommand("~cg_name", (int)cmd_cg_name);
 }
 
 struct gui	*gui_samp_cheat_state_text = &set.guiset[1];
@@ -1928,7 +1947,7 @@ void changeServer( const char *pszIp, unsigned ulPort, const char *pszPassword )
 
 	( ( void ( __cdecl * )( unsigned ) )( g_dwSAMP_Addr + FUNC_ENCRYPT_PORT ) )( ulPort );
 
-	if (!pszPassword)
+	if (strlen(pszPassword) == 0)
 		addMessageToChatWindow("Connecting to : %s:%d (pw : None)", pszIp, ulPort);
 	else
 		addMessageToChatWindow("Connecting to : %s:%d (pw : %s)", pszIp, ulPort, pszPassword);
@@ -1938,4 +1957,27 @@ void changeServer( const char *pszIp, unsigned ulPort, const char *pszPassword )
 	g_SAMP->ulPort = ulPort;
 	setPassword( (char *)pszPassword );
 	joining_server = 1;
+}
+
+BOOL ContainsInvalidNickChars_SAMP (char* name) {
+
+	while (*name) {
+		if ((*name >= '0' && *name <= '9') ||
+			(*name >= 'A' && *name <= 'Z') ||
+			(*name >= 'a' && *name <= 'z') ||
+			*name == ']' || *name == '[' ||
+			*name == '_' || *name == '$' ||
+			*name == '=' || *name == '(' ||
+			*name == ')' || *name == '@' ||
+			*name == '.') {
+
+			name++;
+		}
+
+		else
+			return true;
+
+	}
+
+	return false;
 }
