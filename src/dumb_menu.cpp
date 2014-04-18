@@ -213,6 +213,11 @@
 struct menu *menu_active = NULL;
 static int	menu_init = 0;
 
+extern int	iServersCount;
+extern int	iServersCount_fav_list;
+extern USERDATA_SERVER Fav_serv_list[128];
+extern char *cg_name;
+
 static struct menu *menu_new ( struct menu *parent, int id, menu_callback callback )
 {
 	struct menu *menu = (struct menu *)calloc( 1, sizeof(struct menu) );
@@ -2862,33 +2867,52 @@ static int menu_callback_server_list ( int op, struct menu_item *item )
 
 	struct fav_server	*server = &set.server[item->id];
 
-	if ( op == MENU_OP_ENABLED )
-	{
+	if ( op == MENU_OP_ENABLED ) {
 		if ( item->id == INI_SERVERS_MAX + 1 )
 			return set.use_current_name;
 		return 0;
 	}
-	else if ( op == MENU_OP_SELECT )
-	{
+
+	else if ( op == MENU_OP_SELECT ) {
 		if ( item->id == ID_NONE )
 			return 1;
 
-		if ( item->id == INI_SERVERS_MAX + 1 )
-		{
+		if ( item->id == INI_SERVERS_MAX + 1 ) {
 			set.use_current_name ^= 1;
 			return 1;
 		}
-		else
-		{
-			if ( !set.use_current_name )
-				setLocalPlayerName( server->nickname );
-			changeServer( server->ip, server->port, server->password );
+		else {
+			if (item->menu->pos > 1 && item->menu->pos < (iServersCount + 2)) {
+				if (!set.use_current_name) {
+					addMessageToChatWindow("Connecting under the name of : %s.", server->nickname);
+					setLocalPlayerName(server->nickname);
+				}
 
+				else 
+					addMessageToChatWindow("Connecting under the current name.");
+
+				changeServer(set.server[item->id].ip, set.server[item->id].port, set.server[item->id].password);
+			}
+
+			else {
+				if (!set.use_current_name && cg_name != NULL ) {
+					addMessageToChatWindow("Connecting under the name of : %s.", cg_name);
+					setLocalPlayerName(cg_name);
+				}
+
+				else 
+					addMessageToChatWindow("Connecting under the current name.");
+				
+				changeServer(Fav_serv_list[item->id].IP, Fav_serv_list[item->id].port, ""); // Pourquoi pas faire un /set_password ...
+			}
+				
 			return 1;
 		}
 
 		return 1;
 	}
+
+	
 
 	return 0;
 }
@@ -2957,7 +2981,7 @@ static int menu_callback_gamestate ( int op, struct menu_item *item )
 /////////////////////////////////////////////////////////////////////////////
 extern int	iGTAPatchesCount;
 extern int	iSAMPPatchesCount;
-extern int	iServersCount;
+
 void menu_maybe_init ( void )
 {
 	traceLastFunc( "menu_maybe_init()" );
@@ -3053,7 +3077,7 @@ void menu_maybe_init ( void )
 	{
 		menu_item_add( menu_main, NULL, "\tSA-MP", ID_NONE, MENU_COLOR_SEPARATOR, NULL );
 		menu_item_add( menu_main, menu_players, "Players", ID_NONE, MENU_COLOR_DEFAULT, NULL );
-		snprintf( name, sizeof(name), "Fav. server list (%d/%d)", iServersCount, INI_SERVERS_MAX );
+		snprintf(name, sizeof(name), "Fav. server list (%d/%d)", iServersCount + iServersCount_fav_list, INI_SERVERS_MAX + iServersCount_fav_list);
 		menu_item_add( menu_main, menu_servers, name, ID_NONE, MENU_COLOR_DEFAULT, NULL );
 		menu_item_add( menu_main, menu_sampmisc, "SA:MP Misc.", ID_NONE, MENU_COLOR_DEFAULT, NULL );
 		snprintf( name, sizeof(name), "SA:MP Patches (%d/%d)", iSAMPPatchesCount, INI_SAMPPATCHES_MAX );
@@ -3270,6 +3294,15 @@ void menu_maybe_init ( void )
 
 			menu_item_add( menu_servers, NULL, set.server[i].server_name, i, MENU_COLOR_DEFAULT, NULL );
 		}
+
+		// Fav SA-MP 
+		menu_item_add(menu_servers, NULL, "\tSA-MP Favorite list", ID_NONE, MENU_COLOR_SEPARATOR, NULL);
+		// boucle for avec affichage, comme le precedent.
+		for (i = 0; i < iServersCount_fav_list; i++) {
+			snprintf(name, sizeof(name), "%s (%s:%d)", Fav_serv_list[i].servName, Fav_serv_list[i].IP, Fav_serv_list[i].port);
+			menu_item_add(menu_servers, NULL, name, i, MENU_COLOR_DEFAULT, NULL);		
+		}
+		//
 	}
 
 	/* teleports */
