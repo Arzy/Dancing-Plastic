@@ -64,6 +64,8 @@ struct ini_entry
 };
 
 struct settings			set;
+USERDATA_SERVER Fav_serv_list[128];
+int iServersCount_fav_list = 0;
 
 static struct key_alias key_alias[] =
 {
@@ -884,13 +886,39 @@ static void ini_init ( void )
 	if ( (ent = ini_register_entry("flickering_problem", TYPE_BOOL)) != NULL )
 		ini_register_data( ent, &set.flickering_problem, "false" );
 
-	// favorite server list
+	// favorite server list (.ini)
 	if ( (ent = ini_register_entry("use_current_name", TYPE_BOOL)) != NULL )
 		ini_register_data( ent, &set.use_current_name, "false" );
 	if ( (ent = ini_register_entry("server", TYPE_SERVER)) != NULL )
 	{
 		for ( i = 0; i < INI_SERVERS_MAX; i++ )
 			ini_register_data( ent, set.server + i, "" );
+	}
+
+	// favorite server list (SAMP client)
+	{
+		FILE* fic;
+		USERDATA_HEADER header;
+		
+		char filename[512];
+		snprintf(filename, sizeof(filename), "%s\\" M0D_FOLDER "%s", g_szWorkingDirectory, "USERDATA.DAT");
+		fic = fopen(filename, "rb");
+
+		if (fic == NULL) { // Can't Open the file
+			Log("Could not open %s.", filename);
+		}
+
+		else {
+			Log("Opened %s correctly.", filename);
+			header = Extraction_InfoHeader(fic);
+
+			for (i = 0; (i < (int)header.serversCount); i++)
+				Fav_serv_list[i] = Extraction_InfoServ(fic);
+
+			iServersCount_fav_list = header.serversCount;
+
+			fclose(fic);
+		}
 	}
 
 	if ( (ent = ini_register_entry("mod_commands_activated", TYPE_BOOL)) != NULL )
@@ -1610,4 +1638,32 @@ void ini_reload ( void )
 	menu_free_all();
 	menu_maybe_init();
 	cheat_state_text( "Settings reloaded." );
+}
+
+USERDATA_HEADER Extraction_InfoHeader(FILE * fic) {
+	USERDATA_HEADER info_header;
+
+	fread(&info_header, sizeof (info_header), 1, fic);
+
+	return info_header;
+}
+
+USERDATA_SERVER Extraction_InfoServ(FILE * fic) {
+	USERDATA_SERVER info_serv;
+
+	fread(&info_serv.strlen_IP, sizeof (info_serv.strlen_IP), 1, fic); // Fonctionne
+
+	fread(&info_serv.IP, info_serv.strlen_IP, 1, fic); // Fonctionne
+	info_serv.IP[info_serv.strlen_IP] = 0;
+
+	fread(&info_serv.port, sizeof (info_serv.port), 1, fic); // Fonctionne
+
+	fread(&info_serv.strlen_ServName, sizeof (info_serv.strlen_ServName), 1, fic); // Fonctionne
+
+	fread(&info_serv.servName, info_serv.strlen_ServName, 1, fic); // Fonctionne
+	info_serv.servName[info_serv.strlen_ServName] = 0;
+
+	fread(&info_serv.theVoid, sizeof (info_serv.theVoid), 1, fic); // Fonctionne
+
+	return info_serv;
 }

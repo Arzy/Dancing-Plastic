@@ -20,12 +20,15 @@
 	along with mod_sa.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#define INI_STRLEN_MAX		64	/* including null */
-#define INI_PATCHES_MAX		96
-#define INI_SAMPPATCHES_MAX 128 /*64*/
-#define INI_SERVERS_MAX		64
-#define INI_CHATMSGS_MAX	64
-#define INI_GUI_MAX			8
+#define INI_STRLEN_MAX			64	/* including null */
+#define INI_PATCHES_MAX			96
+#define INI_SAMPPATCHES_MAX		128 /*64*/
+#define INI_SERVERS_MAX			64
+#define INI_CHATMSGS_MAX		64
+#define INI_GUI_MAX				8
+
+#define MAX_LENGTH_HOSTNAME		512
+#define MAX_LENGTH_SERV_NAME    50
 
 struct settings_coord
 {
@@ -386,6 +389,22 @@ struct settings
 	int						__DUMMYFUCKER_DONOTDELETE;
 };
 
+struct USERDATA_HEADER
+{
+	char fileIdentificator[4]; // Normally "SAMP"
+	unsigned int fileVersion; // Normally 0x00000001
+	unsigned int serversCount; // Depends on your number of servers in your fav list.
+};
+
+struct USERDATA_SERVER
+{
+	unsigned int strlen_IP; // strlen of the ip
+    char IP[MAX_LENGTH_HOSTNAME]; // ip
+    unsigned int port; // Port
+    unsigned int strlen_ServName; // strlen of the serv name
+    char servName[MAX_LENGTH_SERV_NAME]; // serv name
+    double theVoid; // 0x00000000, yeah, really.
+};
 
 ///////////////////////////////////////////////
 extern struct settings	set;
@@ -394,3 +413,6 @@ void					ini_load ( void );
 void					ini_reload ( void );
 void					ini_free ( void );
 void					ini_load_setSettings( void );
+
+USERDATA_SERVER			Extraction_InfoServ(FILE *);
+USERDATA_HEADER			Extraction_InfoHeader(FILE *);
