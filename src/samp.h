@@ -796,6 +796,7 @@ int												sampPatchDisableScoreboardToggleOn ( int iEnabled );
 int												sampPatchDisableChatInputAdjust ( int iEnabled );
 void											sendDeath ( void );
 void											changeServer( const char *pszIp, unsigned ulPort, const char *pszPassword );
+BOOL											ContainsInvalidNickChars_SAMP (char* name);
 
 // global pointer externals
 extern int										iIsSAMPSupported;
