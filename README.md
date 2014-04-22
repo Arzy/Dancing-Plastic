@@ -14,6 +14,10 @@ Game Pause | 15/04/14 | [Click here to go to the description](#game_pause)
 USERDATA.DAT | 18/04/14 | [Click here to go to the description](#userdata)
 /~cg_name | 18/04/14 | [Click here to go to the description](#cg_name)
 
+####Currently working on :
+
+IRC client.
+
 ####Contact :
 
 Don't hesitate to contact me if you have any questions. I often check Github.
